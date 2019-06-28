@@ -23,6 +23,7 @@ class doublyLinkedList {
         bool Insert(ull);
         std::pair<bool, Node *> Search(ull);
         bool Delete(ull);
+        void printList();
         friend class hashTable;
 };
 
@@ -39,16 +40,22 @@ class hashTable {
         void Insert(ull);
         void Delete(ull);
         std::pair<bool, Node *> Search(ull);
+        void printTable();
 };
 
 int main() {    
-    int value;
+    int value, choice;
     hashTable *arr = new hashTable();
-    while(std::cin >> value) {
-        if (value == 0)
+    while(std::cin >> choice) {
+        if (choice == 0)
             break;
-        arr->Insert(value);
+        std::cin >> value;
+        if (choice == 1)
+            arr->Insert(value);
+        else
+            arr->Delete(value);
     }
+    arr->printTable();
 }
 
 
@@ -87,7 +94,8 @@ bool doublyLinkedList::Insert(ull value) {
                 return false;
             temp = temp->next;
         }
-        this->tail = new Node(value, this->tail);
+        this->tail->next = new Node(value, this->tail);
+        this->tail = this->tail->next;
     }   
     else 
         this->head = this->tail = new Node(value);
@@ -128,7 +136,16 @@ bool doublyLinkedList::Delete(ull value) {
     delete search.second;
 }
 
-//-------------------------------------
+void doublyLinkedList::printList() {
+    Node *move = this->head;
+    while (move != NULL) {
+        std::cout << move->key << " ";
+        move = move->next; 
+    }
+    std::cout << "\n";
+}
+
+//--------------------------------------------------------------------
 
 ull hashTable::hash(ull value, ull capacity) {
     return (value % capacity);
@@ -158,6 +175,8 @@ void hashTable::Insert(ull value) {
 }
 
 void hashTable::Delete(ull value) {
+    if (this->size == 0)
+        return;
     ull position = this->hash(value, this->capacity);
     if (this->table[position] != NULL) 
         if (this->table[position]->Delete(value))
@@ -202,4 +221,10 @@ void hashTable::DownSize() {
     this->capacity /= 2;
     delete this->table;
     this->table = newTable;
+}
+
+void hashTable::printTable() {
+    for (int i = 0; i < this->capacity; i++)
+        if (this->table[i] != NULL)
+            this->table[i]->printList();
 }
