@@ -44,7 +44,7 @@ class AVLTree {
 int getHeight(Node *node) {
     if (node)
         return node->height;
-    return -1;
+    return 0;
 }
 
 int differ_height_of_childs(Node *node) {
@@ -87,7 +87,7 @@ int main() {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 // Node member Method, function
 Node::Node(int key) {
-    this->key = key, this->height = 0;
+    this->key = key, this->height = 1;
     this->left = this->right = NULL;
 }
 
