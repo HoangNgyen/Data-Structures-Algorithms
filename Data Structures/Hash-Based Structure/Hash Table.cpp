@@ -44,18 +44,8 @@ class hashTable {
 };
 
 int main() {    
-    int value, choice;
+    ull value, choice;
     hashTable *arr = new hashTable();
-    while(std::cin >> choice) {
-        if (choice == 0)
-            break;
-        std::cin >> value;
-        if (choice == 1)
-            arr->Insert(value);
-        else
-            arr->Delete(value);
-    }
-    arr->printTable();
 }
 
 
@@ -153,16 +143,22 @@ ull hashTable::hash(ull value, ull capacity) {
 
 hashTable::hashTable() {
     this->size = 0;
-    this->capacity = 10;
+    this->capacity = 3;
     this->table = new doublyLinkedList*[capacity];
 }
 
 hashTable::~hashTable() {
-    for (int i = 0; i < this->capacity; i++)
+    for (int i = 0; i < this->capacity; i++) 
         delete table[i];
     this->size = this->capacity = 0;
 }
 
+
+std::pair<bool, Node *> hashTable::Search(ull value) {  
+    ull pos = this->hash(value, this->capacity);
+    if (this->table[pos] != NULL)
+        return this->table[pos]->Search(value);
+}
 
 void hashTable::Insert(ull value) {
     ull position = this->hash(value, this->capacity);   
