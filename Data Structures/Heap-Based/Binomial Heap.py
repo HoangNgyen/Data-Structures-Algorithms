@@ -26,22 +26,19 @@ class Node:
 
 
     def insert_Node(self, newKey):
-
         if self.__key == None:
             self.__key = newKey
             return
-
         if newKey < self.__key:
             self.__key, newKey = newKey, self.__key
-
         if self.__rightNode == None:
             self.__rightNode = Node(newKey, None, self)
         else:
             self.__rightNode.insert_Node(newKey)
-        
         if self.__rightNode.__amountOfNodes == self.__amountOfNodes:
             self.__modify()
 
+            
     def __Link(self, fur):
         self.__childList.append(fur)
         fur.__parent = self
@@ -50,6 +47,7 @@ class Node:
         if (len(self.__childList) > 1):
             fur.__leftNode = self.__childList[-2]
 
+            
     def __Traversal(self):
         stdout.write("%d " % self.__key)
         if self.__childList:
@@ -70,11 +68,13 @@ class Node:
         else:
             self.__childList[minPos].extractMin()
 
+            
 class BinomialHeap:
     
     def __init__(self):
         self.__heap = []
 
+        
     def __heapify(self):
         if len(self.__heap) == 1:
             return
@@ -123,7 +123,7 @@ class BinomialHeap:
         newNode = Node(value)
         self.__heap.append(newNode) 
         self.__Union()
-
+        
     def printHeap(self):
         for node in self.__heap:
             node._Node__Traversal()
